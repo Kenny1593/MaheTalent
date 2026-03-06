@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<title>Liste des tâches</title>
+
+<!-- Style css pour la table -->
+<style>
+table {
+  border-collapse: collapse;
+  width: 100%;
+}
+
+th, td {
+  border: 1px solid #ccc;
+  padding: 8px;
+}
+
+th {
+  background-color: #f2f2f2;
+}
+</style>
+
+</head>
+<body>
+
+<h2>Liste des tâches</h2>
+
+<label>Rechercher par projet :</label>
+<input type="text" id="searchProject" placeholder="Nom du projet">
+
+<br><br>
+<!-- Tableau de Tâches -->
+<table>
+<thead>
+<tr>
+<th>Nom de la tâche</th>
+<th>Projet</th>
+<th>Priorité</th>
+<th>Raison du blocage</th>
+</tr>
+</thead>
+
+<tbody id="taskTable">
+</tbody>
+
+</table>
+
+<script>
+
+// Stocké les tâches dans un tableau d'objets
+const tasks = [
+  {
+    name: "Configurer le serveur",
+    project: "Implémentation Client A",
+    priority: 1,
+    block_reason: "En attente des accès"
+  },
+  {
+    name: "Rédiger la documentation",
+    project: "Projet interne",
+    priority: 3,
+    block_reason: "Manque d'informations"
+  },
+  {
+    name: "Mettre à jour le schéma de données",
+    project: "Implémentation Client B",
+    priority: 2,
+    block_reason: "Décision métier en attente"
+  }
+];
+
+// fonction pour afficher les tâches
+function displayTasks(taskList) {
+
+  const table = document.getElementById("taskTable");
+  table.innerHTML = "";
+  
+  //boucle pour créer une ligne pour chaque tâche et l'ajouter au tableau taskList
+  taskList.forEach(task => {
+
+    // création d'une ligne de tableau pour chaque tâche
+    const row = document.createElement("tr");
+
+    // remplir la ligne avec les données de la tâche
+    row.innerHTML = `
+      <td>${task.name}</td>
+      <td>${task.project}</td>
+      <td>${task.priority}</td>
+      <td>${task.block_reason}</td>
+    `;
+
+    // Ajouter la ligne au tableau
+    table.appendChild(row);
+
+  });
+}
+// afficher toutes les tâches au départ
+displayTasks(tasks);
+
+/***************************************************/
+
+// fonction de recherche par projet
+document.getElementById("searchProject").addEventListener("keyup", function() {
+
+  //récupérer la valeur de recherche et la convertir en minuscules
+  const searchValue = this.value.toLowerCase();
+
+  // filtrer les tâches en fonction du projet qui inclut la valeur de recherche
+  const filteredTasks = tasks.filter(task =>
+    task.project.toLowerCase().includes(searchValue)
+  );
+
+  // afficher les tâches filtrées
+  displayTasks(filteredTasks);
+
+});
+
+</script>
+
+</body>
+</html>
